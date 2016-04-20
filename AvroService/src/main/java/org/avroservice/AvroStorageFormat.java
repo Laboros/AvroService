@@ -2,23 +2,28 @@ package org.avroservice;
 
 import java.util.List;
 
+import org.apache.avro.AvroRuntimeException;
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Field;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericRecordBuilder;
 import org.apache.commons.lang.StringUtils;
-import org.apache.hadoop.io.WritableComparable;
 import org.laboros.StorageFormat;
 
 public class AvroStorageFormat implements StorageFormat {
 	private Schema oSchema;
 	private boolean isFixedWidth=Boolean.FALSE;
-	private String delimiter=AvroConstants.SEPARATOR_COMMA;// Default seperator
+	private String delimiter=AvroConstants.SEPARATOR_COMMA;// Default separator
 	
+	public AvroStorageFormat(){
+		
+	}
+	
+	public void setAVSC(final String avsc){
+		oSchema=SchemaUtil.parseAvscToAvroSchema(avsc);
+	}
 	/**
-	 * 
 	 * @param avsc
-	 * 
 	 * This method will create a avro Schema Object
 	 */
 	public AvroStorageFormat(final String avsc){
@@ -53,18 +58,34 @@ public class AvroStorageFormat implements StorageFormat {
 
 	public Object parseData(String inputData) {
 		
-		return null;
+		GenericRecord record=null;
+		
+		if(isFixedWidth()){
+			record=parseFixedWidthData(inputData);
+		}else{
+			record=parseDelimitedData(inputData);
+		}
+		
+		return record;
 	}
 
 	public GenericRecord parseFixedWidthData(final String inputData)
 	{
-		return null;
+		GenericRecord record=null;
+		if(oSchema!=null){
+			GenericRecordBuilder builder=new GenericRecordBuilder(oSchema);
+			record=builder.build();
+			List<Field> fields=oSchema.getFields();
+			
+		}
+		
+		return record;
 	}
 	
 	public GenericRecord parseDelimitedData(final String inputData)
 	{
 		GenericRecord record=null;
-		if(getDelimiter()!=null)
+		if(getDelimiter()!=null && oSchema!=null)
 		{
 
 			final String delimiter=getDelimiter();
@@ -83,6 +104,8 @@ public class AvroStorageFormat implements StorageFormat {
 				}
 			}
 	
+			}else{
+				throw new AvroRuntimeException("No schema exists");
 			}
 		return record;
 	}
