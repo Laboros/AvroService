@@ -13,7 +13,7 @@ import org.laboros.StorageFormat;
 public class AvroStorageFormat implements StorageFormat {
 	private Schema oSchema;
 	private boolean isFixedWidth=Boolean.FALSE;
-	private String delimiter=AvroConstants.SEPARATOR_COMMA;// Default separator
+	private String delimiter=AvroConstants.SEPARATOR_COMMA.getValue();// Default separator
 	
 	public AvroStorageFormat(){
 		
@@ -76,10 +76,25 @@ public class AvroStorageFormat implements StorageFormat {
 			GenericRecordBuilder builder=new GenericRecordBuilder(oSchema);
 			record=builder.build();
 			List<Field> fields=oSchema.getFields();
-			
+			if(fields!=null)
+			{
+				int iStartIdx=0;//Changes everytime = iStartIdx+previouslength
+				int iEndIdx=iStartIdx; //Changes EndIdx=iStartIdx+currentlength
+				Field field=null;
+				for (int i = 0; i < fields.size(); i++) 
+				{
+					field=fields.get(i);
+//					field.get
+				}
+			}
 		}
 		
 		return record;
+	}
+	
+	private String getDataBetween(int startIdx,int endIdx,final String inputData)
+	{
+		return StringUtils.substring(inputData, startIdx, endIdx);
 	}
 	
 	public GenericRecord parseDelimitedData(final String inputData)
