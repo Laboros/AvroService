@@ -17,6 +17,7 @@ import org.avroservice.AvroConstants;
 import org.avroservice.pojo.ColumnInfo;
 import org.avroservice.pojo.TableMetaData;
 
+@Deprecated
 public class FileUtil {
 	
 	public static List<String> readLines(String fileNameWithLoc) throws IOException{
