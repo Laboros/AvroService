@@ -12,7 +12,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.avroservice.AvroConstants;
 import org.avroservice.mapper.AvroDataConverterMapper;
-import org.avroservice.mapper.AvroDataConverterReducer;
 import org.hdfsservice.util.HDFSUtil;
 
 /**
@@ -32,6 +31,7 @@ public class AvroDataConverterJob extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 		
 		Configuration conf = super.getConf();
+		conf.set("mapreduce.framework.name", "local");
 		
 		final String hdfsPathToAVSC=args[0];
 		

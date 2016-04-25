@@ -26,7 +26,7 @@ public class AvroUtil {
 
 	public static Schema convertMetaFileToAVSC(final String metaFileLocationWithName) throws FileNotFoundException, IOException, JSONException {
 		
-		TableMetaData tableMetaData=FileUtil.parseMetaFile(metaFileLocationWithName);
+		TableMetaData tableMetaData=AvroFileUtil.parseMetaFile(metaFileLocationWithName);
 		
 		Schema tableSchema=convertTableMetaDataToAVSC(tableMetaData);
 		
