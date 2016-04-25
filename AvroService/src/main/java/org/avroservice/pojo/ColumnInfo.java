@@ -1,6 +1,6 @@
 package org.avroservice.pojo;
 
-public class ColumnInfo {
+public class ColumnInfo implements Comparable<ColumnInfo>{
 	
 	private String sourceName;
 	private String schemaName;
@@ -100,6 +100,12 @@ public class ColumnInfo {
 				+ dataLength + ", dataScale=" + dataScale + ", format="
 				+ format + ", primaryKey=" + primaryKey + ", columnId="
 				+ columnId + "]";
+	}
+	
+	@Override
+	public int compareTo(ColumnInfo o) {
+		// TODO Auto-generated method stub
+		return this.columnId-o.columnId;
 	}
 	
 	}

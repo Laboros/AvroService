@@ -46,7 +46,7 @@ public class AvroUtil {
 		
 		JSONObject avscSchema=new JSONObject();
 		
-		avscSchema.put(AvroConstants.TYPE.getValue(), AvroConstants.TYPE_RECORD);
+		avscSchema.put(AvroConstants.TYPE.getValue(), AvroConstants.TYPE_RECORD.getValue());
 		avscSchema.put(AvroConstants.SOURCE_NAME.getValue(), tableMetaData.getSOURCE_NAME());
 		avscSchema.put(AvroConstants.NAMESPACE.getValue(), tableMetaData.getSCHEMA_NAME());
 		avscSchema.put(AvroConstants.TABLE_NAME.getValue(), tableMetaData.getTABLE_NAME());

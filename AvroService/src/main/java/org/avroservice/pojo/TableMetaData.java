@@ -41,7 +41,13 @@ public class TableMetaData {
 	public void setColumns(Set<ColumnInfo> columns) {
 		this.columns = columns;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "TableMetaData [SOURCE_NAME=" + SOURCE_NAME + ", SCHEMA_NAME="
+				+ SCHEMA_NAME + ", TABLE_NAME=" + TABLE_NAME + ", columns="
+				+ columns + "]";
+	}
+
 	
 }

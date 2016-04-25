@@ -12,7 +12,7 @@ public enum AvroConstants {
 //AVSC CONVERSION
 	TYPE("type"),
 	TYPE_RECORD("record"),
-	TABLE_NAME("name"),
+	TABLE_NAME("tablename"),
 	SOURCE_NAME("source"),
 	NAMESPACE("namespace"),
 	DOC("doc"),
@@ -32,7 +32,7 @@ public enum AvroConstants {
 	FIELD_DATASCALE("dataScale"),
 	FIELD_FORMAT("format"),
 	FIELD_PRIMARYKEY("primaryKey"),
-	FIELD_COLUMNID("columnId")	
+	FIELD_COLUMNID("columnId"), ONE(1)	
 	;
 	
 	private String value;

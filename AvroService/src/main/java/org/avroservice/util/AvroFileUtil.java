@@ -2,9 +2,9 @@ package org.avroservice.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.avroservice.AvroConstants;
@@ -23,7 +23,7 @@ public class AvroFileUtil {
 		if(lines!=null && !lines.isEmpty())
 		{
 				
-			final String line=lines.get(AvroConstants.ZERO.getIntValue());
+			final String line=lines.get(AvroConstants.ONE.getIntValue());
 			String[] tokens = StringUtils.splitPreserveAllTokens(line, AvroConstants.SEPERATOR_PIPE.getValue());
 			
 			tblMD = new TableMetaData();
@@ -31,7 +31,38 @@ public class AvroFileUtil {
 			tblMD.setSOURCE_NAME(!StringUtils.isEmpty(tokens[0])?tokens[0]:AvroConstants.EMPTY.getValue());
 			tblMD.setSCHEMA_NAME(!StringUtils.isEmpty(tokens[1])?tokens[1]:AvroConstants.EMPTY.getValue());
 			tblMD.setTABLE_NAME(!StringUtils.isEmpty(tokens[2])?tokens[2]:AvroConstants.EMPTY.getValue());
-			Set<ColumnInfo> hashSet = new HashSet<ColumnInfo>();
+			Set<ColumnInfo> hashSet = new TreeSet<ColumnInfo>();
+			String strLine=null;
+			for (int i=1;i<lines.size();i++) 
+			{
+				strLine=lines.get(i);
+			ColumnInfo columnInfo = AvroFileUtil.createColumnInfo(strLine);
+			hashSet.add(columnInfo);
+			}
+			tblMD.setColumns(hashSet);
+			
+		}
+		return tblMD;
+		
+	}
+	
+	
+	public static TableMetaData parseMetaFile(List<String> lines) throws FileNotFoundException, IOException {
+
+//		List<String> lines=FileUtil.readLines(metaFileNameWithLoc);
+		TableMetaData tblMD = null;
+		if(lines!=null && !lines.isEmpty())
+		{
+				
+			final String line=lines.get(AvroConstants.ONE.getIntValue());
+			String[] tokens = StringUtils.splitPreserveAllTokens(line, AvroConstants.SEPERATOR_PIPE.getValue());
+			
+			tblMD = new TableMetaData();
+			
+			tblMD.setSOURCE_NAME(!StringUtils.isEmpty(tokens[0])?tokens[0]:AvroConstants.EMPTY.getValue());
+			tblMD.setSCHEMA_NAME(!StringUtils.isEmpty(tokens[1])?tokens[1]:AvroConstants.EMPTY.getValue());
+			tblMD.setTABLE_NAME(!StringUtils.isEmpty(tokens[2])?tokens[2]:AvroConstants.EMPTY.getValue());
+			Set<ColumnInfo> hashSet = new TreeSet<ColumnInfo>();
 			String strLine=null;
 			for (int i=1;i<lines.size();i++) 
 			{
