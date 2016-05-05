@@ -2,6 +2,6 @@
 *.jar
 *.classpath
 *.project
-*/target
+*target
 */.settings
 *.zip
