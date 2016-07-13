@@ -102,7 +102,6 @@ public class ColumnInfo implements Comparable<ColumnInfo>{
 				+ columnId + "]";
 	}
 	
-	@Override
 	public int compareTo(ColumnInfo o) {
 		// TODO Auto-generated method stub
 		return this.columnId-o.columnId;
