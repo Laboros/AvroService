@@ -10,8 +10,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.avroservice.AvroConstants;
 
-public class AvroDataConverterMapper extends
-		Mapper<LongWritable, Text, Text, Text> {
+public class AvroDataConverterMapper extends Mapper<LongWritable, Text, Text, Text> {
+	
 
 	boolean isFixedWidth=Boolean.FALSE;
 	String delimiter=null;
@@ -39,7 +39,10 @@ public class AvroDataConverterMapper extends
 	protected void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException 
 			{
-		
+		if(oSchema==null)
+		{
+			throw new IOException("Schema Is Null;") ;// TODO Change to custom exception
+		}
 	};
 	
 	@Override

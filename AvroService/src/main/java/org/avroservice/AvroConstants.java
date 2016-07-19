@@ -12,7 +12,7 @@ public enum AvroConstants {
 //AVSC CONVERSION
 	TYPE("type"),
 	TYPE_RECORD("record"),
-	TABLE_NAME("tablename"),
+	TABLE_NAME("name"),
 	SOURCE_NAME("source"),
 	NAMESPACE("namespace"),
 	DOC("doc"),

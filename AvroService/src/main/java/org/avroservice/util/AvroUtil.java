@@ -2,11 +2,15 @@ package org.avroservice.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.avro.Schema;
+import org.apache.avro.Schema.Field;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.generic.GenericRecordBuilder;
+import org.apache.commons.lang.StringUtils;
 import org.avroservice.AvroConstants;
 import org.avroservice.pojo.ColumnInfo;
 import org.avroservice.pojo.TableMetaData;
@@ -78,6 +82,7 @@ public class AvroUtil {
 		field.put(AvroConstants.FIELD_DATALENGTH.getValue(), column.getDataLength());
 		field.put(AvroConstants.FIELD_COLUMNNAME.getValue(), column.getColumnName());
 		field.put(AvroConstants.FIELD_DATASCALE.getValue(), column.getDataScale());
+//		field.put(AvroConstants.FIELD_TYPE.getValue(), "[\"null\","+"\""+getType(column.getDataType()+"\""+"]"));
 		field.put(AvroConstants.FIELD_TYPE.getValue(), getType(column.getDataType()));
 		field.put(AvroConstants.FIELD_DATATYPE.getValue(), column.getDataType());
 		field.put(AvroConstants.FIELD_FORMAT.getValue(), column.getFormat());
@@ -98,4 +103,50 @@ public class AvroUtil {
 		return returnType;
 	}
 	
+	
+	public static GenericRecord createGenericRecordForRow(final String input, final Schema oSchema, final boolean isFixedWidth, final String dataDelimiter)
+	{
+		GenericRecord record=null;
+		if(isFixedWidth){
+			record=createGenericRecordForFixedWidthRow(input, oSchema);
+		}else{
+			record=createGenericRecordForDelimitedRow(input, oSchema, dataDelimiter);
+		}
+		return record;
+	}
+	
+	private static GenericRecord createGenericRecordForDelimitedRow(final String input, final Schema oSchema, final String dataDelimiter)
+ {
+		GenericRecord record = null;
+
+		if (!StringUtils.isEmpty(input)) {
+			// Creating Builder
+			GenericRecordBuilder builder = new GenericRecordBuilder(oSchema);
+
+			List<Field> fields = oSchema.getFields();
+
+			Field currentField = null;
+
+			final String[] tokens = StringUtils.splitPreserveAllTokens(input,
+					dataDelimiter);
+			for (int i = 0; i < fields.size(); i++) {
+				currentField = fields.get(i);
+				final int idx = currentField.pos();
+//						.getProp(AvroConstants.FIELD_COLUMNID.getValue()); // Please
+																			// check
+//				if (!StringUtils.isEmpty(sIdx)) {
+//					final int idx = Integer.parseInt(sIdx);
+					builder.set(currentField, tokens[idx]);
+//				}
+
+			}
+			record = builder.build();
+		}
+		return record;
+	}
+	private static GenericRecord createGenericRecordForFixedWidthRow(final String input, final Schema oSchema)
+	{
+		
+		return null;
+	}
 }
